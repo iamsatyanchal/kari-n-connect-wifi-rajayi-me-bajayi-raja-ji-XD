@@ -22,7 +22,7 @@ import remarkGfm from 'remark-gfm';
 
 interface Message {
   id: string;
-  role: 'user' | 'bot';
+  role: 'user' | 'assistant';
   content: string;
   images?: { src: string }[];
   isStreaming?: boolean;
@@ -129,7 +129,7 @@ const MessageContent = ({ message }: { message: Message }) => {
         )}
         style={message.role === 'user' ? { maxWidth: '80%' } : undefined}
       >
-        {message.role === 'bot' && (
+        {message.role === 'assistant' && (
           <>
             <div className="mb-4">
               {!imagesLoaded && <ImageSkeleton />}
@@ -161,7 +161,7 @@ const MessageContent = ({ message }: { message: Message }) => {
         )}
         {message.role === 'user' && message.content}
       </div>
-      {message.role === 'bot' && !message.isStreaming && (
+      {message.role === 'assistant' && !message.isStreaming && (
         <div className="flex pl-4 gap-1 transition-opacity">
           <Button
             variant="ghost"
@@ -228,7 +228,7 @@ export default function SearchResults() {
 
   const createMessage = useCallback(
     (
-      role: 'user' | 'bot',
+      role: 'user' | 'assistant',
       content: string,
       isStreaming = false,
       hasStartedStreaming = false
@@ -245,7 +245,9 @@ export default function SearchResults() {
   const updateLastBotMessage = useCallback(
     (content: string, isStreaming = true) => {
       setMessages((prev) => {
-        const lastBotMessageIndex = prev.findLastIndex((m) => m.role === 'bot');
+        const lastBotMessageIndex = prev.findLastIndex(
+          (m) => m.role === 'assistant'
+        );
         if (lastBotMessageIndex === -1) return prev;
 
         const newMessages = [...prev];
@@ -313,7 +315,7 @@ export default function SearchResults() {
     abortControllerRef.current = new AbortController();
 
     const userMessage = createMessage('user', query);
-    const botMessage = createMessage('bot', '', true, false);
+    const botMessage = createMessage('assistant', '', true, false);
 
     if (!hasInitialized && initialQuery === query) {
       setMessages([userMessage, botMessage]);
@@ -336,8 +338,18 @@ export default function SearchResults() {
             prompt: query,
             history: messages
               .filter((msg) => !msg.isStreaming)
-              .map(({ role, content }) => ({ role, content })),
-            system_prompt: `[INST]YOU ARE AN AI ASSISTANT NAMED SHADOW AI[/INST]`,
+              .reduce((acc, msg, index, arr) => {
+                if (
+                  msg.role === 'user' &&
+                  arr[index + 1] &&
+                  arr[index + 1].role === 'assistant'
+                ) {
+                  // User message paired with the next assistant message
+                  acc.push([msg.content, arr[index + 1].content]);
+                }
+                return acc;
+              }, []),
+            system_prompt: `YOU ARE AN AI ASSISTANT NAMED SHADOW AI`,
           }),
           signal: abortControllerRef.current.signal,
         }
@@ -359,7 +371,9 @@ export default function SearchResults() {
 
       const images = await imagesPromise;
       setMessages((prev) => {
-        const lastBotMessageIndex = prev.findLastIndex((m) => m.role === 'bot');
+        const lastBotMessageIndex = prev.findLastIndex(
+          (m) => m.role === 'assistant'
+        );
         if (lastBotMessageIndex === -1) return prev;
 
         const newMessages = [...prev];
