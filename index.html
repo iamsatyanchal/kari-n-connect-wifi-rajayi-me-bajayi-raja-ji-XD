@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.10.0/styles/github.min.css"
+    />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+    <title>⚡️ Bolt.new + Vite + React</title>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+    <script>
+      hljs.highlightAll();
+      function adjustBubbleWidthwa(bubble) {
+        const textContent = bubble.textContent.trim(); // Get the trimmed text content
+        const wordCount = textContent.split(/\s+/).length; // Split by spaces to count words
+
+        if (wordCount === 1) {
+          // If there's only one word, set width to auto
+          bubble.style.width = 'auto'; // Use `auto` as `!important` cannot be applied directly via JavaScript
+          console.log(
+            `Single word detected: ${textContent}, setting width to auto. madharchod hai ye likhne wala sala singleword kaun likhta hai iski mkc 3 baar`
+          );
+        } else {
+          // Run the resize logic if not a single word
+          bubble.style.width = 'auto'; // Reset to auto to measure the height correctly
+          const originalHeight = bubble.clientHeight;
+          let newWidth = bubble.clientWidth;
+          console.log('karde');
+          // Reduce the width until the height increases
+          while (newWidth > 0) {
+            bubble.style.width = newWidth + 'px';
+            if (bubble.clientHeight > originalHeight) {
+              // If height increases, break out of the loop
+              bubble.style.width = newWidth + 1 + 'px'; // Set the width to the last valid width plus one
+              break;
+            }
+            newWidth--;
+          }
+        }
+      }
+    </script>
+  </body>
+</html>

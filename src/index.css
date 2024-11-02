@@ -1,0 +1,354 @@
+@import url('https://api.fontshare.com/v2/css?f[]=satoshi@900,700,500,400&f[]=general-sans@700,500,400&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --font-satoshi: 'Satoshi', sans-serif;
+    --font-general: 'General Sans', sans-serif;
+    --background: 0 0% 100%;
+    --foreground: 240 10% 3.9%;
+    --card: 0 0% 100%;
+    --card-foreground: 240 10% 3.9%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 240 10% 3.9%;
+    --primary: 240 5.9% 10%;
+    --primary-foreground: 0 0% 98%;
+    --secondary: 240 4.8% 95.9%;
+    --secondary-foreground: 240 5.9% 10%;
+    --muted: 240 4.8% 95.9%;
+    --muted-foreground: 240 3.8% 46.1%;
+    --accent: 240 4.8% 95.9%;
+    --accent-foreground: 240 5.9% 10%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 240 5.9% 90%;
+    --input: 240 5.9% 90%;
+    --ring: 240 5.9% 10%;
+    --radius: 0.75rem;
+  }
+
+  .dark {
+    --background: 240 10% 3.9%;
+    --foreground: 0 0% 98%;
+    --card: 240 10% 3.9%;
+    --card-foreground: 0 0% 98%;
+    --popover: 240 10% 3.9%;
+    --popover-foreground: 0 0% 98%;
+    --primary: 0 0% 98%;
+    --primary-foreground: 240 5.9% 10%;
+    --secondary: 240 3.7% 15.9%;
+    --secondary-foreground: 0 0% 98%;
+    --muted: 240 3.7% 15.9%;
+    --muted-foreground: 240 5% 64.9%;
+    --accent: 240 3.7% 15.9%;
+    --accent-foreground: 0 0% 98%;
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 240 3.7% 15.9%;
+    --input: 240 3.7% 15.9%;
+    --ring: 240 4.9% 83.9%;
+  }
+
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground font-general;
+    font-family: 'Inter', sans-serif !important;
+  }
+
+  .font-display {
+    font-family: var(--font-satoshi);
+  }
+}
+
+.loading-dots {
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+}
+
+.loading-dots span {
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background-color: currentColor;
+  animation: bounce 0.8s infinite;
+}
+
+.loading-dots span:nth-child(2) {
+  animation-delay: 0.2s;
+}
+
+.loading-dots span:nth-child(3) {
+  animation-delay: 0.4s;
+}
+
+@keyframes bounce {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-4px);
+  }
+}
+
+.animate-in {
+  animation-duration: 150ms;
+  animation-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.fade-in-0 {
+  opacity: 0;
+}
+
+.fade-in-100 {
+  opacity: 1;
+}
+
+.slide-in-from-bottom-4 {
+  transform: translateY(1rem);
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slide-in-from-bottom {
+  from {
+    transform: translateY(1rem);
+  }
+  to {
+    transform: translateY(0);
+  }
+}
+
+.animate-in {
+  animation: fade-in 0.15s ease-out forwards,
+    slide-in-from-bottom 0.15s ease-out forwards;
+}
+
+.user-msg {
+  border-radius: 0.75rem 0.75rem 0rem 0.75rem;
+  padding: 0.45rem;
+  padding-left: 0.65rem;
+  padding-right: 0.65rem;
+}
+
+.shimmer {
+  animation: shimmer 2s infinite linear;
+  background-size: 1000px 100%;
+}
+
+@keyframes shimmer {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+ul,
+ol {
+  padding-left: 2em;
+}
+
+ul {
+  list-style-type: disc;
+}
+
+ol {
+  list-style-type: decimal;
+}
+
+ul ul,
+ol ol {
+  list-style-type: disc;
+}
+
+ul ul ul,
+ol ol ol {
+  list-style-type: square;
+}
+
+ol li {
+  margin-top: 15px;
+  margin-bottom: 5px;
+}
+
+/* GitHub Markdown Overrides */
+.markdown-body {
+  background-color: transparent !important;
+  color: inherit !important;
+  font-family: inherit !important;
+}
+
+.dark .markdown-body {
+  color-scheme: dark !important;
+}
+
+.markdown-body table {
+  @apply border-collapse w-full my-4;
+}
+
+.markdown-body table th,
+.markdown-body table td {
+  @apply border p-2 dark:border-muted;
+}
+
+.markdown-body table th {
+  @apply bg-muted/50 font-semibold;
+}
+
+.markdown-body table tr:nth-child(2n) {
+  @apply bg-muted/30;
+}
+
+.markdown-body pre {
+  @apply bg-muted/50 p-4 rounded-lg my-4;
+}
+
+.markdown-body code {
+  @apply bg-muted/50 px-1.5 py-0.5 rounded text-primary;
+}
+
+.markdown-body blockquote {
+  @apply border-l-4 border-muted pl-4 italic my-4;
+}
+
+.markdown-body ul,
+.markdown-body ol {
+  @apply my-4 pl-6;
+}
+
+.markdown-body li {
+  @apply my-1;
+}
+
+.markdown-body hr {
+  @apply border-muted my-8;
+}
+
+.markdown-body img {
+  @apply rounded-lg max-w-full h-auto my-4;
+}
+
+.markdown-body a {
+  @apply text-primary hover:underline;
+}
+
+.markdown-body h1,
+.markdown-body h2,
+.markdown-body h3,
+.markdown-body h4,
+.markdown-body h5,
+.markdown-body h6 {
+  @apply text-foreground font-bold mt-6 mb-4;
+}
+
+.markdown-body p {
+  @apply text-muted-foreground my-4;
+}
+
+/* Inline Code */
+code {
+  background-color: rgba(27, 31, 35, 0.05);
+  padding: 0.2em 0.4em;
+  margin: 0;
+  font-size: 87%;
+  border-radius: 3px;
+}
+
+/* Line Breaks */
+br {
+  display: block;
+  content: '';
+  margin: 0.5em 0;
+}
+
+/* Blockquotes */
+blockquote {
+  padding: 0.5em 1em;
+  color: #6a737d;
+  border-left: 0.25em solid #dfe2e5;
+  margin: 0;
+}
+
+/* Headers */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  margin: 1em 0 0.5em;
+  padding-top: 0.5em;
+  padding-bottom: 0.05rem;
+  font-weight: 500;
+}
+
+h1 {
+  font-size: 2em;
+}
+
+h2 {
+  font-size: 1.5em;
+}
+
+h3 {
+  font-size: 1.25em;
+}
+
+h4 {
+  font-size: 1em;
+}
+
+h5 {
+  font-size: 0.875em;
+}
+
+h6 {
+  font-size: 0.85em;
+  color: #6a737d;
+}
+
+/* Nested Lists */
+ul ul,
+ol ol {
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+ul ul {
+  list-style-type: disc;
+}
+
+ul ul ul {
+  list-style-type: square;
+}
+
+b,
+strong {
+  font-weight: 500 !important;
+  color: rgba(31, 41, 55, var(--tw-text-opacity)) !important;
+}
+
+pre code {
+  background: transparent !important;
+}
+
+.markdown-body p {
+  color: white !important;
+}
